@@ -1,5 +1,7 @@
-module.exports = {
-  experimental: {
-    appDir: true, // Ensure this is enabled
-  },
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  /* config options here */
 };
+
+export default nextConfig;

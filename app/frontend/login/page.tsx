@@ -5,33 +5,83 @@ import { useUserStore } from "@/app/store/useUserStore";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
-  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
   const setUser = useUserStore((state) => state.setUser);
   const router = useRouter();
 
   const handleLogin = async () => {
-    if (!name.trim()) return;
+    setError(null);
 
-    // Simulating API login (In real case, fetch from DB)
-    const userData = { id: Date.now(), name };
+    if (!email.trim() || !password.trim()) {
+      setError("All fields are required");
+      return;
+    }
 
-    setUser(userData); // ✅ Store user in Zustand
-    router.push("/dashboard"); // ✅ Redirect to dashboard
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Login failed");
+      }
+
+      setUser(data.user); // ✅ Store user in Zustand
+      alert("Login  successful! ✅✅");
+
+      router.push("/"); // ✅ Redirect user after login
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <h1 className="text-2xl font-bold mb-4">Login</h1>
-      <input
-        type="text"
-        placeholder="Enter your name"
-        className="border p-2 mb-2"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <button onClick={handleLogin} className="bg-blue-500 text-white px-4 py-2">
-        Login
-      </button>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-400 to-indigo-600 p-4">
+      <div className="bg-white shadow-lg rounded-xl p-8 w-full max-w-sm">
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">Welcome Back</h1>
+        {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+        <form className="space-y-4">
+          <div>
+            <label className="block text-gray-600 font-medium">Email</label>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="block text-gray-600 font-medium">Password</label>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <button
+            type="button"
+            onClick={handleLogin}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out"
+          >
+            Login
+          </button>
+        </form>
+        <p className="text-gray-500 text-sm text-center mt-4">
+          Don't have an account?{" "}
+          <a href="/frontend/signup" className="text-blue-600 hover:underline">
+            Sign Up
+          </a>
+        </p>
+      </div>
     </div>
   );
 }

@@ -1,8 +1,8 @@
 import { create } from "zustand";
 
 interface UserState {
-  user: { id: number; name: string } | null;
-  setUser: (user: { id: number; name: string }) => void;
+  user: { id: string; name: string } | null;
+  setUser: (user: { id: string; name: string } | null) => void;
   logout: () => void;
 }
 

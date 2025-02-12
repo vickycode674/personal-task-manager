@@ -5,13 +5,17 @@ export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // 🚀 Allow access to API routes & signup page
-  if (pathname.startsWith("/api") || pathname === "/frontend/signup" || pathname === "/frontend/login") {
-    return NextResponse.next();
+  if (pathname.startsWith("/api") || pathname === "/frontend/signup" || pathname === "/frontend/login" || pathname === "/frontend/dashboard") {
+    return  NextResponse.next();
   }
+  if(pathname.startsWith("/frontend/projects")){
+    return  NextResponse.next();
+  }
+
 
   return withAuth(req, {
     pages: {
-      signIn: "/",
+      signIn: "/frontend/dashboard",
     },
   });
 }
