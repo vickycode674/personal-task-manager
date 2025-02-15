@@ -15,6 +15,13 @@
       "when": 1739170738128,
       "tag": "0001_mushy_blonde_phantom",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1739542795957,
+      "tag": "0002_groovy_ender_wiggin",
+      "breakpoints": true
     }
   ]
 }

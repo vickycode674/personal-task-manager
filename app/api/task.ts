@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const fetchTasks = async () => {
-  const response = await axios.get("/api/tasks");
+  const response = await axios.get("/api/tasks/list");
   return response.data;
 };
 

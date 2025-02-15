@@ -16,8 +16,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <QueryClientProvider client={queryClient}>
           <Header />  {/* ✅ Header is always present */}
           <main className="flex-grow">{children}</main>
-          <Footer />  {/* ✅ Footer is always present */}
         </QueryClientProvider>
+        {/* <Footer />  ✅ Footer is always present */}
       </body>
     </html>
   );

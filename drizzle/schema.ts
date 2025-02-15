@@ -15,10 +15,11 @@ export const tasks = pgTable("tasks", {
   description: text("description"),
   due_date: timestamp("due_date"),
   status: text("status").default("pending"),
-  priority: integer("priority").default(1),
+  priority: text("priority").$type<"Low" | "Medium" | "High">().default("Low"), // ✅ Change to text ENUM
   project_id: integer("project_id").references(() => projects.id, { onDelete: "cascade" }),
   user_id: integer("user_id").references(() => users.id, { onDelete: "cascade" }),
 });
+
 
 // Projects Table
 export const projects = pgTable("projects", {

@@ -4,12 +4,12 @@ import { tasks } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 import {z} from "zod";
 
-//zod validation schema
+//zod validation
 const taskSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
   description: z.string().optional(),
   due_date: z.string().optional(),
-  priority: z.enum(["low", "medium", "high"]),
+  priority: z.enum(["Low", "Medium", "High"]),
   project_id: z.number().int("Project ID must be an integer"),
 });
 
@@ -17,6 +17,8 @@ export async function POST(req: Request) {
   try {
 
     const body = await req.json();
+
+    console.log("Here isthe body which is coming==========================",body);
 
     const validation = taskSchema.safeParse(body);
     if (!validation.success) {

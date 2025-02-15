@@ -1,18 +1,24 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-const handler = NextAuth({
+export const authOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        name: { label: "Name", type: "text" },
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials.name) throw new Error("Name is required");
+        const res = await fetch("https://your-api-url.com/login", {
+          method: "POST",
+          body: JSON.stringify(credentials),
+          headers: { "Content-Type": "application/json" },
+        });
 
-        // Simulating user creation (In real case, store in DB)
-        const user = { id: Date.now(), name: credentials.name };
+        const user = await res.json();
+
+        if (!res.ok) throw new Error(user.message || "Invalid credentials");
 
         return user;
       },
@@ -22,22 +28,20 @@ const handler = NextAuth({
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.name = user.name;
       }
       return token;
     },
     async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.id;
-        session.user.name = token.name;
-      }
+      session.user.id = token.id;
       return session;
     },
   },
-  pages: {
-    signIn: "/login",
+  session: {
+    strategy: "jwt", // ✅ Ensure JWT session is used to persist auth
   },
-  secret: process.env.NEXTAUTH_SECRET, // Set in .env
-});
+  pages: {
+    signIn: "/frontend/login", // ✅ Redirect unauthorized users to login
+  },
+};
 
-export { handler as GET, handler as POST };
+export default NextAuth(authOptions);
