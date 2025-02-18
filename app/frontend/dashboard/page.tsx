@@ -27,8 +27,8 @@ export default function Dashboard() {
   });
 
   const { data: tasks, isLoading: tasksLoading, error: tasksError } = useQuery({
-    queryKey: ["tasks", selectedProject],  
-    queryFn: () => fetchTasks(selectedProject),
+    queryKey: ["tasks",  user?.id,selectedProject],  
+    queryFn: () => fetchTasks(user?.id,selectedProject),
     enabled: !!selectedProject,
   });
 
@@ -100,13 +100,28 @@ export default function Dashboard() {
                 </button>
               </div>
 
-              <TaskList tasks={tasks || []} />
-
               {showTaskForm && (
-                <div className="mt-6 p-4 bg-white shadow-lg rounded-lg">
-                  <TaskForm projectId={selectedProject} onClose={() => setShowTaskForm(false)} />
-                </div>
-              )}
+  <div className="mt-6 p-4 bg-white shadow-lg rounded-lg relative">
+    <div className="flex justify-between items-center mb-4">
+      <h2 className="text-lg font-semibold text-gray-700">Adding new Task</h2>
+
+      {/* CLOSE Button in the Top-Right Corner */}
+      <button 
+        onClick={() => setShowTaskForm(false)} 
+        className="bg-white-500 text-white px-3 py-1 rounded-md hover: transition"
+      >
+        ❌
+      </button>
+    </div>
+
+    {/* TaskForm Component */}
+    <TaskForm selectedProject={selectedProject} onAddTask={() => setShowTaskForm(false)} />
+  </div>
+)}
+
+
+<TaskList tasks={tasks || []} />
+
             </>
           )}
         </>

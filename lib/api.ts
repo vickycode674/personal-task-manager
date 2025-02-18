@@ -8,15 +8,16 @@ export async function fetchProjects(userId) {
     return res.json();
   }
   
-  export async function fetchTasks(userId) {
-    const res = await fetch(`/api/tasks/list/?userId=${userId}`);
+  export async function fetchTasks(userId, projectId) {
+    const res = await fetch(`/api/tasks/list/?userId=${userId}&projectId=${projectId}`); // ✅ Added projectId
     console.log("here is the response",res);
+
     if (!res.ok) throw new Error("Failed to fetch tasks");
     return res.json();
   }
   
 // Create new task
-export const createTask = async (taskData: { title: string; projectId: string }) => {
+export const createTask = async (taskData: { title: string; selectedProject: string }) => {
   const { data } = await axios.post(`${API_URL}/tasks/create`, taskData);
   return data;
 };

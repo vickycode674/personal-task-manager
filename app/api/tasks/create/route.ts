@@ -15,6 +15,7 @@ const taskSchema = z.object({
 
 export async function POST(req: Request) {
   try {
+    console.log("Here is the request body==========================",req);
 
     const body = await req.json();
 
