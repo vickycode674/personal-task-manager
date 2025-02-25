@@ -7,10 +7,9 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import TaskList from "@/app/frontend/projects/TaskList";
 import TaskForm from "@/app/frontend/tasks/TaskForm";
-import { deleteTask } from "@/app/api/task";
 
 export default function Dashboard() {
-  const { user, logout } = useUserStore();
+  const { user } = useUserStore();
   const router = useRouter();
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
   const [showTaskForm, setShowTaskForm] = useState(false);
@@ -32,15 +31,6 @@ export default function Dashboard() {
     queryFn: () => fetchTasks(user?.id,selectedProject),
     enabled: !!selectedProject,
   });
-
-  const handleDeleteTask = async (taskId) => {
-    try {
-      await deleteTask(taskId); // Delete from backend
-      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId)); // Remove from UI
-    } catch (error) {
-      console.error("Failed to delete task:", error);
-    }
-  };
 
 
   if (!user) {
@@ -131,7 +121,7 @@ export default function Dashboard() {
 )}
 
 
-<TaskList tasks={tasks || []}  onDeleteTask={handleDeleteTask}/>
+<TaskList tasks={tasks || []} />
 
             </>
           )}

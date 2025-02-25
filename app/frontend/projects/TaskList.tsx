@@ -4,7 +4,7 @@ import { deleteTask } from "@/app/api/task";
 
 import TaskForm from "@/app/frontend/tasks/TaskForm";
 
-export default function TaskList({ tasks, selectedProject, onDeleteTask }) {
+export default function TaskList({ tasks, selectedProject }) {
   const [showForm, setShowForm] = useState(false);
 
   return (

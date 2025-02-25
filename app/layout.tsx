@@ -3,7 +3,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 import Header from "@/app/components/Header";
-import Footer from "@/app/components/Footer";
+// import Footer from "@/app/components/Footer";
 import "@/app/globals.css";
 
 

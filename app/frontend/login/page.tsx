@@ -3,14 +3,14 @@
 import { useState } from "react";
 import { useUserStore } from "@/app/store/useUserStore";
 import { useRouter } from "next/navigation";
-import Header from "@/app/components/Header"; // Import Header
+// import Header from "@/app/components/Header"; // Import Header
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const setUser = useUserStore((state) => state.setUser);
-  const user = useUserStore((state) => state.user); // Get logged-in user
+  // const user = useUserStore((state) => state.user); // Get logged-in user
   const router = useRouter();
 
   const handleLogin = async () => {
@@ -80,8 +80,7 @@ export default function Login() {
               Login
             </button>
           </form>
-          <p className="text-gray-500 text-sm text-center mt-4">
-            Don't have an account?{" "}
+          <p className="text-gray-500 text-sm text-center mt-4"> Dont have an account?{" "}
             <a href="/frontend/signup" className="text-blue-600 hover:underline">
               Sign Up
             </a>

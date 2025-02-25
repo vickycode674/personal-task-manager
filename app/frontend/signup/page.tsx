@@ -39,9 +39,9 @@ export default function SignupPage() {
       console.log("User Registered ✅:", data);
       alert("Registration successful!");
       router.push("/frontend/login"); // Redirect to login page
-    } catch (err: any) {
+    } catch (err) {
       console.error("Registration Error ❌:", err);
-      setError(err.message);
+      // setError(err.message);
     } finally {
       setLoading(false);
     }
