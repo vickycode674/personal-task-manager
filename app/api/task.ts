@@ -14,6 +14,8 @@ export const createTask = async (task) => {
 };
 
 export const deleteTask = async (id) => {
+  console.log("Welcome to the delete task fucntion====================",id);
   const response = await axios.delete(`/api/tasks/delete/${id}`);
+  console.log("here is the resposne happening and coming===================",response.data)
   return response.data;
 };

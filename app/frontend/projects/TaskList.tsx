@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import { deleteTask } from "@/app/api/task";
+
 import TaskForm from "@/app/frontend/tasks/TaskForm";
 
 export default function TaskList({ tasks, selectedProject, onDeleteTask }) {
@@ -52,7 +54,7 @@ export default function TaskList({ tasks, selectedProject, onDeleteTask }) {
 
 
               <button
-                onClick={() => onDeleteTask(task.id)}
+                onClick={() => deleteTask(task.id)}
                 className="mt-2 bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition self-end"
               >
                 🗑 Delete
