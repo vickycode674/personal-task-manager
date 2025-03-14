@@ -1,13 +1,15 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/drizzle/db";
 import { categories } from "@/drizzle/schema";
 import { z } from "zod";
 import { eq } from "drizzle-orm";
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+// ✅ Use `NextRequest` for better typing
+export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   try {
     const body = await req.json();
 
+    // ✅ Schema validation for the request body
     const categorySchema = z.object({
       name: z.string().min(3, "Category name must be at least 3 characters"),
     });
@@ -17,14 +19,16 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
       return NextResponse.json({ error: validation.error.format() }, { status: 400 });
     }
 
-    const categoryId = parseInt(params.id);
+    // ✅ Convert `id` from string → number and check validity
+    const categoryId = Number(params.id);
     if (isNaN(categoryId)) {
       return NextResponse.json({ error: "Invalid category ID" }, { status: 400 });
     }
 
+    // ✅ Update category in database
     const updatedCategory = await db
       .update(categories)
-      .set(body)
+      .set({ name: body.name }) // Ensure only valid fields are updated
       .where(eq(categories.id, categoryId))
       .returning();
 
