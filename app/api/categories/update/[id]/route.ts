@@ -4,12 +4,11 @@ import { categories } from "@/drizzle/schema";
 import { z } from "zod";
 import { eq } from "drizzle-orm";
 
-// ✅ Use `NextRequest` for better typing
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   try {
     const body = await req.json();
 
-    // ✅ Schema validation for the request body
+    // ✅ Schema validation using Zod
     const categorySchema = z.object({
       name: z.string().min(3, "Category name must be at least 3 characters"),
     });
